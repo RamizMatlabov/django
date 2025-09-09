@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .models import Rule
 from .forms import RuleForm
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+
 
 # CRUD
 # - Create
@@ -9,41 +11,35 @@ from django.contrib.auth.decorators import login_required
 # - Update
 # - Delete
 
-def get_rules(request):
-    context = {
-        "rules": Rule.objects.all()
-    }
-    return render(request, "rules.html", context)
+class RulesView(ListView):
+    model = Rule
+    template_name = "rules.html"
+    context_object_name = "rules"  # defaults to "object_list"
 
-@login_required
-def create_rule(request):
-    context = { "form": RuleForm() }
 
-    if request.method == "POST":
-        form = RuleForm(request.POST)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.author = request.user
-            obj.save()
-            return redirect('get_rules')
 
-    return render(request, "create_rule.html", context)
 
-@login_required
-def update_rule(request, pk: int):
-    rule = Rule.objects.get(pk=pk, author=request.user)
-    context = {"form": RuleForm(instance=rule)}
+class RulesCreateView(CreateView):
+    model = Rule
+    form_class = RuleForm  # This lets to use the form that we created inside templates
+    template_name = 'create_rule.html'
+    success_url = '/rules'
 
-    if request.method == "POST":
-        form = RuleForm(request.POST, instance=rule)
-        if form.is_valid():
-            form.save()
-            return redirect('get_rules')
+    # set request.user as an author of the post
+    def form_valid(self, rule):
+        rule.instance.author = self.request.user
+        return super().form_valid(rule)
 
-    return render(request, "update_rule.html", context)
 
-@login_required
-def delete_rule(request, pk: int):
-    rule = Rule.objects.get(pk=pk, author=request.user)
-    rule.delete()
-    return redirect("get_rules")
+
+class UpdateRulesView(UpdateView):
+    model = Rule
+    template_name = 'update_rule.html'
+    success_url = '/rules'
+    form_class = RuleForm
+
+
+class RulesDeleteView(DeleteView):
+    model = Rule
+    template_name = 'post_confirm_delete.html'
+    success_url = '/rules'

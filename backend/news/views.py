@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import News
 from .forms import NewsForm
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 # CRUD
 # - Create
@@ -9,41 +10,35 @@ from django.contrib.auth.decorators import login_required
 # - Update
 # - Delete
 
-def get_news(request):
-    context = {
-        "news": News.objects.all()
-    }
-    return render(request, "news.html", context)
+class NewsView(ListView):
+    model = News
+    template_name = "news.html"
+    context_object_name = "news"  # defaults to "object_list"
 
-@login_required
-def create_news(request):
-    context = { "form": NewsForm() }
 
-    if request.method == "POST":
-        form = NewsForm(request.POST)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.author = request.user
-            obj.save()
-            return redirect('get_news')
 
-    return render(request, "create_news.html", context)
 
-@login_required
-def update_news(request, pk: int):
-    news = News.objects.get(pk=pk, author=request.user)
-    context = {"form": NewsForm(instance=news)}
+class NewsCreateView(CreateView):
+    model = News
+    form_class = NewsForm  # This lets to use the form that we created inside templates
+    template_name = 'create_news.html'
+    success_url = '/news'
 
-    if request.method == "POST":
-        form = NewsForm(request.POST, instance=news)
-        if form.is_valid():
-            form.save()
-            return redirect('get_news')
+    # set request.user as an author of the post
+    def form_valid(self, news):
+        news.instance.author = self.request.user
+        return super().form_valid(news)
 
-    return render(request, "update_news.html", context)
 
-@login_required
-def delete_news(request, pk: int):
-    news = News.objects.get(pk=pk, author=request.user)
-    news.delete()
-    return redirect("get_news")
+
+class UpdateNewsView(UpdateView):
+    model = News
+    template_name = 'update_news.html'
+    success_url = '/news'
+    form_class = NewsForm
+
+
+class NewsDeleteView(DeleteView):
+    model = News
+    template_name = 'news_confirm_delete.html'
+    success_url = '/news'

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+<title>Unit School: DELETE-NEWS</title>
+{% endblock %}
+
+
+{% block content %}
+<h1>Delete NEWS</h1>
+<p>Are you sure to delte this NEWS?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit">Delete</button>
+    <a href="{% url 'get_news' %}" class="btn btn-info" type="button">Cancel</a>
+</form>
+{% endblock %}
