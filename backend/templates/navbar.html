@@ -1,43 +1,48 @@
 {% load socialaccount %}
 {% load static %}
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+            <img src="{% static '../media/images/ai.png' %}" alt="Logo" width="32" height="32" class="me-2">
+            <span style="font-weight:700; letter-spacing:1px;">Django</span>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
             aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="{% url 'home' %}">Navbar</a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                    <a class="nav-link" href="{% url 'home' %}"><i class="bi bi-house-door"></i> Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'get_posts' %}">Posts</a>
+                    <a class="nav-link" href="{% url 'get_posts' %}"><i class="bi bi-file-earmark-text"></i> Posts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'get_news' %}"><i class="bi bi-newspaper"></i> News</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'get_rules' %}"><i class="bi bi-list-check"></i> Rules</a>
                 </li>
             </ul>
-
             {% if request.user.is_anonymous %}
-                <a href="{% url 'account_login' %}" class="btn btn-primary">Login</a>
-                <a href="{% url 'account_signup' %}" class="btn btn-success">Register</a>
-                <a href="{% provider_login_url 'github' %}" class="btn btn-success">Login with Github</a>
+                <a href="{% url 'account_login' %}" class="btn btn-light me-2">Login</a>
+                <a href="{% url 'account_signup' %}" class="btn btn-success me-2">Register</a>
+                <a href="{% provider_login_url 'github' %}" class="btn btn-dark">Github</a>
             {% else %}
-                <form class="d-flex">
+                <form class="d-flex align-items-center">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">
-                        Submit
+                    <button class="btn btn-outline-light me-2" type="submit">
+                        <i class="bi bi-search"></i>
                     </button>
-                
-                    <a href="{% url 'profile' %}">
-                        <img src="{{ request.user.profile.image.url }}" alt="Profile Image" class="rounded-circle ms-2"
-                        style="width: 30px; height: 30px;">
+                    <a href="{% url 'profile' %}" class="d-flex align-items-center">
+                        <img src="{{ request.user.profile.image.url }}" alt="Profile Image" class="rounded-circle ms-2 border border-2 border-light" style="width: 32px; height: 32px;">
                     </a>
-                    
-                    <a class="btn btn-primary ms-5" href="{% url 'account_logout' %}">Logout</a>
+                    <a class="btn btn-danger ms-3" href="{% url 'account_logout' %}">Logout</a>
                 </form>
             {% endif %}
-
         </div>
     </div>
 </nav>
+<!-- Bootstrap Icons CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">

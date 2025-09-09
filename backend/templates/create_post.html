@@ -2,12 +2,15 @@
 
 
 {% block title %}
-    <title>Unit School: CREATE-POST</title>
+    <title>Django: CREATE-POST</title>
 {% endblock %}
 
 
 {% block content %}
-  <h1>Create Post</h1>
-
-  {% include "form_snippets.html" with form=form %}
+  <div class="card shadow-sm mx-auto mt-5" style="max-width: 600px;">
+    <div class="card-body">
+      <h2 class="fw-bold mb-4">Создать пост</h2>
+      {% include "form_snippets.html" with form=form %}
+    </div>
+  </div>
 {% endblock %}

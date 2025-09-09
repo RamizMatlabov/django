@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Django: Create News</title>
+{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm mx-auto mt-5" style="max-width: 600px;">
+    <div class="card-body">
+        <h2 class="fw-bold mb-4">Добавить новость</h2>
+        {% include "form_snippets.html" with form=form %}
+    </div>
+</div>
+{% endblock %}

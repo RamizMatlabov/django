@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Django: RULES</title>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold">Правила</h1>
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'create_rule' %}" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Добавить правило
+    </a>
+    {% endif %}
+</div>
+<div class="row">
+    {% for item in rules %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ item.title }}</h5>
+                <p class="card-text">{{ item.description|striptags }}</p>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <small class="text-muted">Автор: {{ item.author }}</small>
+                {% if request.user == item.author %}
+                <span>
+                    <a href="{% url 'update_rule' item.id %}" class="btn btn-sm btn-outline-info me-1"><i class="bi bi-pencil"></i></a>
+                    <a href="{% url 'delete_rule' item.id %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                </span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center text-muted">Нет правил</div>
+    {% endfor %}
+</div>
+{% endblock %}

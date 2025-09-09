@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Правила (rulws)</h2>
+<ul>
+  {% for item in rules %}
+    <li>{{ item.title }} — {{ item.author }} — {{ item.created_at }}<br>{{ item.description }}</li>
+  {% endfor %}
+</ul>
+<a href="{% url 'create_rule' %}">Добавить правило</a>
+{% endblock %}

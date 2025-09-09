@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  <title>Unit School: HOME</title>
+  <title>Django: HOME</title>
 {% endblock %}
 
 {% block content %}
-  <h1>Unit School: Home-page</h1>
+  <div class="row justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="col-md-8 text-center">
+      <h1 class="display-4 fw-bold mb-4">Добро пожаловать в Django!</h1>
+      <p class="lead mb-5">Образовательная платформа для обмена новостями, постами и правилами. Присоединяйтесь к нашему сообществу!</p>
+      <a href="{% url 'get_posts' %}" class="btn btn-primary btn-lg me-2">Посты</a>
+      <a href="{% url 'get_news' %}" class="btn btn-info btn-lg me-2">Новости</a>
+      <a href="{% url 'get_rules' %}" class="btn btn-success btn-lg">Правила</a>
+    </div>
+  </div>
 {% endblock %}
