@@ -29,6 +29,10 @@ urlpatterns = [
     path('rules/', include('rules.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+urlpatterns += [
+    path('api/', include('backend.jwt_urls')),
+]
+
 
 # https://www.unit-school.com/   ==  home-page
 # https://www.unit-school.com/users
