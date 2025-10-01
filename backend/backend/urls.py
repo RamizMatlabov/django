@@ -19,6 +19,7 @@ from django.urls import path, include
 from users.views import home, profile
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path('accounts/', include('allauth.urls')),
@@ -27,11 +28,9 @@ urlpatterns = [
     path('', include('users.urls')),
     path('news/', include('news.urls')),
     path('rules/', include('rules.urls')),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-urlpatterns += [
-    path('api/', include('backend.jwt_urls')),
-]
 
 
 # https://www.unit-school.com/   ==  home-page
